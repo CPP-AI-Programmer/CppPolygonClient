@@ -2,17 +2,23 @@
 
 // TODO: Format this code
 // -------------------------------- Base Client -------------------------------- //
+// ---------------- Special Methods ---------------- //
 polygon_client::Client::Client(std::string api_key) : api_key(api_key) {}
 
-
-cpr::Response polygon_client::Client::market_status() {
-    return cpr::Get(
-        cpr::Url{
-            "https://api.polygon.io/v1/marketstatus/now?apiKey=" + this->api_key
-        }
+// ---------------- Refenece Data ---------------- //
+nlohmann::json polygon_client::Client::market_status() {
+    return nlohmann::json::parse(
+        cpr::Get(
+            cpr::Url{
+                "https://api.polygon.io/v1/marketstatus/now?apiKey=" + this->api_key
+            }
+        ).text
     );
 }
-cpr::Response polygon_client::Client::Aggregates(
+
+// ---------------- Market Data ---------------- //
+// ------------ Level 1 ------------ //
+nlohmann::json polygon_client::Client::Aggregates(
     std::string ticker,
     std::string multiplier,
     std::string timespan,
@@ -22,27 +28,31 @@ cpr::Response polygon_client::Client::Aggregates(
     std::string sort, // optional
     std::string limit
 ) {
-    return cpr::Get(
-        cpr::Url{
-            "https://api.polygon.io/v2/aggs/ticker/" 
-            + ticker 
-            + "/range/" + multiplier + "/" 
-            + timespan + "/"
-            + from + "/"
-            + to
-            + "?adjusted=" + adjusted
-            + "&sort=" + sort
-            + "&limit=" + limit
-            + "&apiKey=" + this->api_key
-        }
+    return nlohmann::json::parse(
+        cpr::Get(
+            cpr::Url{
+                "https://api.polygon.io/v2/aggs/ticker/" 
+                + ticker 
+                + "/range/" + multiplier + "/" 
+                + timespan + "/"
+                + from + "/"
+                + to
+                + "?adjusted=" + adjusted
+                + "&sort=" + sort
+                + "&limit=" + limit
+                + "&apiKey=" + this->api_key
+            }
+        ).text
     );
 }
-cpr::Response polygon_client::Client::previous_close(std::string ticker, std::string adjusted) {
-    return cpr::Get(
-        cpr::Url{
-            "https://api.polygon.io/v2/aggs/ticker/"
-            +ticker
-            +"/prev?adjusted="+adjusted+"&apiKey=" + this->api_key
-        }
+nlohmann::json polygon_client::Client::previous_close(std::string ticker, std::string adjusted) {
+    return nlohmann::json::parse(
+        cpr::Get(
+            cpr::Url{
+                "https://api.polygon.io/v2/aggs/ticker/"
+                +ticker
+                +"/prev?adjusted="+adjusted+"&apiKey=" + this->api_key
+            }
+        ).text
     );
 }

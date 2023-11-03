@@ -5,6 +5,7 @@
 // Third Party:
 // requests
 #include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
 
 // local
 #include "CppPolygonClient/wss_client.hpp"
@@ -21,15 +22,16 @@ namespace polygon_client {
         std::string api_key;
 
         // __METHODS__ //
+        // ---------------- Special Methods ---------------- //
         Client(std::string api_key);
         // ---------------- Refenece Data ---------------- //
-        cpr::Response market_status();
+        nlohmann::json market_status();
         // Market Holdidays
         // Tickers
         
         // ---------------- Market Data ---------------- //
         // ------------ Level 1 ------------ //
-        cpr::Response Aggregates(
+        nlohmann::json Aggregates(
             std::string ticker,
             std::string multiplier,
             std::string timespan,
@@ -39,7 +41,7 @@ namespace polygon_client {
             std::string sort = "desc", // optional
             std::string limit = "120" // optional
         ); 
-        cpr::Response previous_close(std::string ticker, std::string adjusted = "true");
+        nlohmann::json previous_close(std::string ticker, std::string adjusted = "true");
 
     };
 
@@ -59,35 +61,35 @@ namespace polygon_client {
 
         // ------------ Level 2 ------------ //
         // -------- Trades -------- //
-        cpr::Response Trades(
+        nlohmann::json Trades(
             std::string ticker,
             std::string order,
             std::string limit, 
             std::string sort
         );
-        cpr::Response Trades(
+        nlohmann::json Trades(
             std::string ticker,
             std::string order,
             std::string limit,
             std::string sort, 
             std::string timestamp
         );
-        cpr::Response Last_Trade(std::string ticker);
+        nlohmann::json Last_Trade(std::string ticker);
         // -------- Quotes -------- //
-        cpr::Response Quotes(
+        nlohmann::json Quotes(
             std::string ticker,
             std::string order,
             std::string limit,
             std::string sort
         );
-        cpr::Response Quotes(
+        nlohmann::json Quotes(
             std::string ticker,
             std::string order,
             std::string limit,
             std::string sort,
             std::string timestamp
         );
-        cpr::Response Last_Quote(std::string ticker);
+        nlohmann::json Last_Quote(std::string ticker);
 
         // ---------------- Reference Data ---------------- //
         // Tickers
